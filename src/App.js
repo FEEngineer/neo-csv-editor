@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
 
 function isNumberic(n) {
@@ -11,36 +12,84 @@ function InputComponent(props) {
 	);
 }
 
-function Square(props) {
-	return (
-		<button className="square" onClick={props.onClick} >
-			{props.value}
-		</button>
-	);
+class Square extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return <div> abc </div>
+	}
+}
+
+class TestTable extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			rowNumber: props.rowNumber,
+			colNumber: props.colNumber,
+		}
+	}
+
+	render() {
+		return <div> {this.props.rowNumber} {this.props.colNumber}  </div>
+	}
 }
 
 class Table extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			rowNumber: 0,
-			colNumber: 0,
-			gridVals: null,
+		let rowNumber = props.rowNumber;
+		let colNumber = props.colNumber;
+
+		let totalNumber = rowNumber * colNumber;
+		let containValues = [];
+
+		for (let i = 0; i < totalNumber; i++) {
+			containValues.push('');
 		}
+
+		this.state = {
+			rowNumber: rowNumber,
+			colNumber: colNumber,
+			containValues: containValues, 
+		}
+	}
+
+	render() {
+		return (
+			<div>
+				{this.state.containValues.map((e, i) => {return <Square />})}
+			</div>
+		);
+	}
+}
+
+class Button extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return 
 	}
 }
 
 class App extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
-			gridNumbers: [1, 1],
+			gridNumbers: [3, 3],
 		};
 	}
 
-	onSubmit(e) {
+	onSubmit(event) {
+		let rowNumber = this.state.rowNumber;
+		let colNumber = this.state.colNumber;
 
+		ReactDOM.render( <Table rowNumber = {rowNumber} colNumber = {colNumber} />, document.getElementById("table-dom"));
 	}
 
 	onChangeValue(index) {
@@ -64,13 +113,19 @@ class App extends Component {
 				<br />
 				<br />
 
-				rows : <InputComponent onChange={this.onChangeValue(rowIndex)} componentIndex={rowIndex} value = {this.state.gridNumbers[rowIndex]} /> 
-				rows : <InputComponent onChange={this.onChangeValue(colIndex)} componentIndex={colIndex} value = {this.state.gridNumbers[colIndex]} /> 
+				rows : <InputComponent onChange={this.onChangeValue(rowIndex)} componentIndex={rowIndex} value={this.state.gridNumbers[rowIndex]} />
+				rows : <InputComponent onChange={this.onChangeValue(colIndex)} componentIndex={colIndex} value={this.state.gridNumbers[colIndex]} />
+
 
 				<br />
 				<br />
 
 				<button type="button" onClick={this.onSubmit}> generate table </button>
+
+				<div id="table-dom">
+				</div>
+
+				<TestTable rowNumber={this.state.gridNumbers[rowIndex]} colNumber={this.state.gridNumbers[colIndex]} />
 
 			</div>
 		);
