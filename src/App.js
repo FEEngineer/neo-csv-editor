@@ -61,6 +61,7 @@ class Table extends Component {
 			containValues.push('');
 		}
 
+
 		return (
 			<div>
 				{containValues.map((e, i) => {return <Square />})}
