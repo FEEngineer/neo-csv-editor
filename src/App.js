@@ -18,19 +18,8 @@ class Square extends Component {
 	}
 }
 
-class TestTable extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			rowNumber: props.rowNumber,
-			colNumber: props.colNumber,
-		}
-	}
-
-	render() {
-		return <div> {this.props.rowNumber} {this.props.colNumber}  </div>
-	}
+function TestTable(props) {
+	return (<div> {props.rowNumber}  {props.colNumber} </div>);
 }
 
 class Table extends Component {
@@ -48,22 +37,37 @@ class Table extends Component {
 		}
 
 		this.state = {
-			rowNumber: rowNumber,
+			rowNumber: rowNumber, 
 			colNumber: colNumber,
 			containValues: containValues, 
+		};
+	}
+
+	recalcContainValues(containValues) {
+		let curState = {
+			rowNumber: this.props.rowNumber, 
+			colNumber: this.props.colNumber, 
+			containValues: containValues, 
 		}
+
+		this.setState(curState);
 	}
 
 	render() {
+		let totalNumber = this.props.rowNumber * this.props.colNumber;
+		let containValues = [];
+
+		for (let i = 0; i < totalNumber; i++) {
+			containValues.push('');
+		}
+
 		return (
 			<div>
-				{this.state.containValues.map((e, i) => {return <Square />})}
+				{containValues.map((e, i) => {return <Square />})}
 			</div>
 		);
 	}
 }
-
-
 
 class App extends Component {
 	constructor(props) {
