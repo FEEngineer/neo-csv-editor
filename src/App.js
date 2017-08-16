@@ -2,21 +2,17 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
-function isNumberic(n) {
-	return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
 function InputComponent(props) {
 	return (
 		<input onChange={props.onChange} value={props.value} />
 	);
 }
 
-class Square extends Component {
-	constructor(props) {
-		super(props);
-	}
+function GenerateTableButton(props) {
+	return (<button onClick={props.buttonOnClick} > generate table </button>);
+}
 
+class Square extends Component {
 	render() {
 		return <div> abc </div>
 	}
@@ -67,15 +63,7 @@ class Table extends Component {
 	}
 }
 
-class Button extends Component {
-	constructor(props) {
-		super(props);
-	}
 
-	render() {
-		return 
-	}
-}
 
 class App extends Component {
 	constructor(props) {
@@ -85,11 +73,15 @@ class App extends Component {
 		};
 	}
 
-	onSubmit(event) {
-		let rowNumber = this.state.rowNumber;
-		let colNumber = this.state.colNumber;
+	genButtonOnClick() {
+		let that = this;
 
-		ReactDOM.render( <Table rowNumber = {rowNumber} colNumber = {colNumber} />, document.getElementById("table-dom"));
+		return function(event) {
+			const rowNumber = that.state.gridNumbers[0];
+			const colNumber = that.state.gridNumbers[1];
+
+			ReactDOM.render( <Table rowNumber = {rowNumber} colNumber = {colNumber} />, document.getElementById("table-dom"));
+		}
 	}
 
 	onChangeValue(index) {
@@ -120,7 +112,7 @@ class App extends Component {
 				<br />
 				<br />
 
-				<button type="button" onClick={this.onSubmit}> generate table </button>
+				<GenerateTableButton buttonOnClick={this.genButtonOnClick()} />
 
 				<div id="table-dom">
 				</div>
