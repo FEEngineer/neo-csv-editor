@@ -12,14 +12,18 @@ function GenerateTableButton(props) {
 	return (<button onClick={props.buttonOnClick} > generate table </button>);
 }
 
-class Square extends Component {
-	render() {
-		return <div> abc </div>
+class Square extends Component  {
+	constructor(props) {
+		super(props);
 	}
-}
 
-function TestTable(props) {
-	return (<div> {props.rowNumber}  {props.colNumber} </div>);
+	render() {
+		return (
+			<button className='square'>
+				1
+			</button>
+		);
+	}
 }
 
 class Table extends Component {
@@ -53,18 +57,21 @@ class Table extends Component {
 		this.setState(curState);
 	}
 
+	renderSquare() {
+		return (
+			<Square />
+		);
+	}
+
 	render() {
-		let totalNumber = this.props.rowNumber * this.props.colNumber;
-		let containValues = [];
+		let rowNumber = this.props.rowNumber;
+		let colNumber = this.props.colNumber;
 
-		for (let i = 0; i < totalNumber; i++) {
-			containValues.push('');
-		}
-
+		let rowArray = Array(rowNumber);
 
 		return (
 			<div>
-				{containValues.map((e, i) => {return <Square />})}
+				{rowArray.map((e, i) => {renderSquare()})}
 			</div>
 		);
 	}
@@ -121,9 +128,6 @@ class App extends Component {
 
 				<div id="table-dom">
 				</div>
-
-				<TestTable rowNumber={this.state.gridNumbers[rowIndex]} colNumber={this.state.gridNumbers[colIndex]} />
-
 			</div>
 		);
 	}
